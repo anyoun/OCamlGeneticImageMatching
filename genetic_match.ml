@@ -1,22 +1,8 @@
-(*#!/usr/bin/env ocaml
-#directory "+libMagick" ;;
-#load "bigarray.cma" ;;
-#load "magick.cma" ;; 
-
-#load "unix.cma" ;; 
-
-#directory "+lablGL" ;;
-#load "lablgl.cma" ;; 
-#load "lablglut.cma" ;; 
-*)
 type point2 = int * int
 type tri = (point2*point2*point2);;
 
-(*let x_max = 600.0
-let y_max = 600.0
-
+(*
 ocamlopt -verbose -ccopt -O3 -ccopt -mfpmath=sse -ccopt -march=core2 -ccopt -I/usr/local/include/ImageMagick bigarray.cmxa -thread -I +libMagick magick.cmxa unix.cmxa threads.cmxa -I +lablGL lablgl.cmxa lablglut.cmxa -o foo.out genetic_match_fitness.c genetic_match.ml
-
 
 *)
 
@@ -52,69 +38,6 @@ let draw_triangles_to_image tris width height =
   let img = Magick.get_canvas ~width:width ~height:height ~color:"#000000" in
   Array.iter (fun t -> draw_triangle_to_image t img) tris;
   img;;
-
-let fitness orig_raw candidate_raw = 
-  let fitness_of_channel (o:int) (c:int) : float = abs_float ((float o) -. (float c)) in
-  let fitness_of_pixel o c =
-    match o with (orig_r,orig_g,orig_b) -> 
-      match c with (cand_r,cand_g,cand_b) ->
-        (fitness_of_channel orig_r cand_r) +.
-        (fitness_of_channel orig_g cand_g) +.
-        (fitness_of_channel orig_b cand_b) in
-  let rec fitness_of_line o c col =
-    match col with
-        0 -> 0.0
-      | _ -> (fitness_of_pixel (Array.get o col) (Array.get c col)) +. (fitness_of_line o c (col-1)) in
-  let rec fitness_line o c n =
-    match n with
-        0 -> 0.0
-      | _ -> let orig_line = Array.get o n in
-             let cand_line = Array.get c n in
-             let len = (Array.length orig_line) - 1 in
-             (fitness_of_line orig_line cand_line len) +. (fitness_line o c (n-1)) in
-  let len = (Array.length orig_raw)-1 in
-  fitness_line orig_raw candidate_raw len
-
-let draw_triangles t =
-  let conv v = match v with (x,y) -> (float_of_int(x),float_of_int(y)) in
-  match t with
-    (a,b,c) ->
-      GlDraw.begins `triangles;
-      GlDraw.vertex2 (conv a);
-      GlDraw.vertex2 (conv b);
-      GlDraw.vertex2 (conv c);
-      GlDraw.ends ()
-
-let display_function() = 
-  GlClear.clear [`color;`depth];
-  GlDraw.color (1.0,1.0,1.0);
-  GlMat.mode `projection;
-  GlMat.load_identity ();
-  GlMat.ortho ~x:(0.0,600.0) ~y:(0.0,600.0) ~z:(-1.0,1.0);
-  Array.iter draw_triangles (make_triangles 6 600 600);
-  Gl.flush ();
-  Glut.swapBuffers ()
-
-let main_opengl () =
-  ignore(Glut.init Sys.argv);
-  Glut.initDisplayMode ~alpha:true ~depth:true ~double_buffer:true () ;
-  Glut.initWindowSize ~w:(600) ~h:(600) ;
-  ignore(Glut.createWindow ~title:"Genetic Match");
-  Glut.displayFunc ~cb:display_function;
-  let rec idle ~value = display_function (); Glut.timerFunc ~ms:(1000/fps) ~cb:idle ~value:0 in 
-  Glut.timerFunc ~ms:(1000/fps) ~cb:idle ~value:0;
-  Glut.specialFunc ~cb:(fun ~key ~x ~y ->
-      match key with 
-      | Glut.KEY_UP -> GlMat.rotate ~angle:(-5.) ~z:1.0 (); display_function ()
-      |	Glut.KEY_DOWN -> GlMat.rotate ~angle:(5.) ~z:1.0 (); display_function ()
-      |	Glut.KEY_LEFT -> GlMat.rotate ~angle:(5.) ~x:1.0 (); display_function ()
-      |	Glut.KEY_RIGHT -> GlMat.rotate ~angle:(-5.) ~x:1.0 (); display_function ()
-      |	_ -> ());
-  Glut.keyboardFunc ~cb:(fun ~key ~x ~y ->
-      match key with
-      |	27 (*esc*) -> exit 0
-      | _ -> ());
-  Glut.mainLoop ()
 
 let permute_triangles triangles width height =
   let index = Random.int (Array.length triangles) in
