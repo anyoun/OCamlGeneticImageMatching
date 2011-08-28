@@ -10,10 +10,10 @@ external test_add : int -> int -> int = "ocaml_test_add"
 external calculate_fitness : Magick.image_handle -> Magick.image_handle -> float = "ocaml_calculate_fitness"
 
 let fps = 60;;
-let num_triangles = 10;;
-let num_permutations = 10000;;
-let permutation_chance = 0.6;;
-let triangle_alpha = 0.5;;
+let initial_num_triangles = 3;;
+let permutations_per_new_triangle = 1000;;
+let max_num_permutations = 10000;;
+let triangle_alpha = 0.3;;
 let color_int_max = 65535;;
 let triangle_color = Magick.Imper.color_of_rgbo_tuple (color_int_max, color_int_max, color_int_max, int_of_float(float_of_int(color_int_max) *. triangle_alpha));;
 
@@ -45,27 +45,34 @@ let permute_triangles triangles width height =
   let new_tri = random_tri width height in
   Array.set copy index new_tri;
   copy
+let append_triangle triangles width height =
+  let new_tri = random_tri width height in
+  Array.append triangles [| new_tri |]
 
-let rec find_fittest orig orig_raw triangles best_fitness width height n =
-  match n with
-    0 -> (best_fitness, triangles)
-  | _ -> (*let new_triangles = make_triangles 6 width height in*)
-         let new_triangles = permute_triangles triangles width height in
-         let candidate = (draw_triangles_to_image new_triangles width height) in
-         (*let candidate_raw = Magick.Imper.get_raw_without_alpha candidate in*)
-         let other_fitness = calculate_fitness orig candidate in
-         (*let other_fitness = fitness orig_raw candidate_raw in*)
-         (*print_string "Comparing ";
-         print_float best_fitness;
-         print_string " to ";
-         print_float other_fitness;
-         print_newline ();*)
-         if other_fitness < best_fitness 
-           then find_fittest orig orig_raw new_triangles other_fitness width height (n-1)
-           else find_fittest orig orig_raw triangles best_fitness width height (n-1)
-let find_fittest_seed orig orig_raw width height =
-  let first_triangles = make_triangles num_triangles width height in
-  find_fittest orig orig_raw first_triangles max_float width height num_permutations
+let rec find_fittest orig triangles best_fitness width height n =
+  if n = 0 then (best_fitness, triangles)
+  else (if n mod permutations_per_new_triangle = 0 then (
+    let new_triangles = append_triangle triangles width height in
+    let new_image = (draw_triangles_to_image new_triangles width height) in
+    let new_fitness = calculate_fitness orig new_image in
+    find_fittest orig new_triangles new_fitness width height (n-1) )
+  else (
+     let new_triangles = permute_triangles triangles width height in
+     let candidate = (draw_triangles_to_image new_triangles width height) in
+     let other_fitness = calculate_fitness orig candidate in
+     (*let other_fitness = fitness orig_raw candidate_raw in*)
+     (*print_string "Comparing ";
+     print_float best_fitness;
+     print_string " to ";
+     print_float other_fitness;
+     print_newline ();*)
+     if other_fitness < best_fitness 
+       then find_fittest orig new_triangles other_fitness width height (n-1)
+       else find_fittest orig triangles best_fitness width height (n-1)))
+
+let find_fittest_seed orig width height =
+  let first_triangles = make_triangles initial_num_triangles width height in
+  find_fittest orig first_triangles max_float width height max_num_permutations
              
 let fitness_search () =
   Random.self_init ();
@@ -74,24 +81,23 @@ let fitness_search () =
   (*Magick.display original;*)
   let width = Magick.get_image_width original in
   let height = Magick.get_image_height original in
-  let orig_raw = Magick.Imper.get_raw_without_alpha original in
   let start_time = Unix.gettimeofday () in
-  let (best_fitness, best_triangles) = find_fittest_seed original orig_raw width height in
+  let (best_fitness, best_triangles) = find_fittest_seed original width height in
   let total_time = (Unix.gettimeofday ()) -. start_time in
   let best_image = draw_triangles_to_image best_triangles width height in
   let image_list = Magick.Imper.new_image_list () in
   Magick.Imper.append_image_to_list image_list original ();
   Magick.Imper.append_image_to_list image_list best_image ();
   Magick.Imper.display_images image_list;
-(*  Magick.display original;*)
+  (*Magick.display original;*)
   print_string "Best fitness: ";
   print_float best_fitness;
   print_string " Total time: ";
   print_float total_time;
   print_string " Time per permutation: ";
-  print_float (total_time /. (float_of_int num_permutations));
+  print_float (total_time /. (float_of_int max_num_permutations));
   print_string " Permutations per second: ";
-  print_float ((float_of_int num_permutations) /. total_time);
+  print_float ((float_of_int max_num_permutations) /. total_time);
   print_newline ()
 
 let _ = fitness_search ()
