@@ -10,140 +10,66 @@
 			<key>filename</key>
 			<string>genetic_match_fitness.c</string>
 			<key>lastUsed</key>
-			<date>2011-08-25T02:04:48Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-09-11T22:47:31Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>genetic_match.ml</string>
 			<key>lastUsed</key>
-			<date>2011-08-25T02:04:45Z</date>
+			<date>2011-09-11T22:47:31Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../../Downloads/OCaml-ImageMagick-0.33/imagemagick_list.c</string>
 			<key>lastUsed</key>
-			<date>2011-08-25T02:04:48Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../../Downloads/OCaml-ImageMagick-0.33/Makefile</string>
-			<key>lastUsed</key>
-			<date>2011-08-25T01:56:17Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../../Downloads/OCaml-ImageMagick-0.33/mlarg.ml</string>
-			<key>lastUsed</key>
-			<date>2011-08-25T01:56:00Z</date>
+			<date>2011-08-29T04:01:18Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>115</integer>
+	<integer>114</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../../Downloads/OCaml-ImageMagick-0.33/Makefile</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>69</integer>
-				<key>line</key>
-				<integer>28</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>18</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>47</integer>
-				<key>line</key>
-				<integer>28</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>71</integer>
-				<key>line</key>
-				<integer>28</integer>
-			</dict>
-		</dict>
 		<key>../../Downloads/OCaml-ImageMagick-0.33/imagemagick_list.c</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>19</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>2632</integer>
+				<integer>2661</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>2608</integer>
-		</dict>
-		<key>../../Downloads/OCaml-ImageMagick-0.33/mlarg.ml</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>43</integer>
-				<key>line</key>
-				<integer>7</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>36</integer>
-				<key>line</key>
-				<integer>7</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>43</integer>
-				<key>line</key>
-				<integer>7</integer>
-			</dict>
+			<integer>2661</integer>
 		</dict>
 		<key>genetic_match.ml</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>55</integer>
+				<integer>14</integer>
 				<key>line</key>
-				<integer>149</integer>
+				<integer>108</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>103</integer>
+			<integer>30</integer>
 		</dict>
 		<key>genetic_match_fitness.c</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>63</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>21</integer>
+				<integer>122</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>58</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -151,12 +77,10 @@
 		<string>genetic_match.ml</string>
 		<string>genetic_match_fitness.c</string>
 		<string>../../Downloads/OCaml-ImageMagick-0.33/imagemagick_list.c</string>
-		<string>../../Downloads/OCaml-ImageMagick-0.33/Makefile</string>
-		<string>../../Downloads/OCaml-ImageMagick-0.33/mlarg.ml</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{1017, 0}, {903, 1178}}</string>
+	<string>{{1015, 0}, {905, 1178}}</string>
 </dict>
 </plist>

@@ -114,7 +114,32 @@ class view =
           print_string " Interations per second: ";
           print_float ((float_of_int permutation_count) /. ((Unix.gettimeofday ()) -. start_time));
           print_newline ();
+          self#save_to_disk;
           Glut.postRedisplay () )
+    
+    method save_to_disk =
+        let file = Unix.openfile "triangles" [Unix.O_WRONLY; Unix.O_CREAT; Unix.O_TRUNC] 0o640 in
+      let chan = Unix.out_channel_of_descr file in
+      Marshal.to_channel chan best_triangles [Marshal.No_sharing];
+      flush chan;
+      Unix.close file
+    method read_from_disk =
+      try
+        let file = Unix.openfile "triangles" [Unix.O_RDONLY] 0o640 in
+        let chan = Unix.in_channel_of_descr file in
+        let triangles = Marshal.from_channel chan in
+        Unix.close file;
+        Some triangles
+      with x-> None
+      
+    initializer
+      let t : tri array option = self#read_from_disk in
+      match t with
+        None -> () |
+        Some triangles ->
+          (best_triangles <- triangles);
+          let candidate = self#draw_triangles_to_image best_triangles in
+          (best_fitness <- calculate_fitness original candidate);
 end;;
     
 let main_opengl () =
