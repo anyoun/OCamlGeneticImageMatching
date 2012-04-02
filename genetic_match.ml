@@ -5,9 +5,9 @@ type tri = (point2*point2*point2);;
 ocamlopt -verbose -ccopt -O3 -ccopt -mfpmath=sse -ccopt -march=core2 -ccopt -I/usr/local/include/ImageMagick bigarray.cmxa -thread -I +libMagick magick.cmxa unix.cmxa threads.cmxa -I +lablGL lablgl.cmxa lablglut.cmxa -o foo.out genetic_match_fitness.c genetic_match.ml
 
 *)
-
+type bmpimage
 external test_add : int -> int -> int = "ocaml_test_add"
-external calculate_fitness : Magick.image_handle -> Magick.image_handle -> float = "ocaml_calculate_fitness"
+external calculate_fitness : bmpimage -> bmpimage -> float = "ocaml_calculate_fitness"
 
 let fps = 60;;
 let initial_num_triangles = 3;;
