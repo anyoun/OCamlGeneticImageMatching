@@ -7,3 +7,5 @@ foo.out
 .DS_Store
 a.out
 genetic_match_fitness.plist
+
+genetic.tmproj
